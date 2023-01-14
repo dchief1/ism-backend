@@ -4,6 +4,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import { connectDatabase } from "./config/database";
 import bodyParser from "body-parser";
+import userRoutes from "./routes/userRoutes"
 
 // Establish connection to DB
 connectDatabase();
@@ -20,6 +21,9 @@ app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(bodyParser.json())
+
+// Routes middleware
+app.use("/api/users", userRoutes)
 
 // Routes
 app.get("/", (req, res) => {
