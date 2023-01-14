@@ -1,8 +1,5 @@
-import configs from "./config/config";
 import app from "./app";
-import express from "express";
 import getServerPort from "./utils/getServerPort";
-// import { config } from "process";
 
 
 const server = app;
