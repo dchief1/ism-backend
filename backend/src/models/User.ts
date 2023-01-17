@@ -3,7 +3,7 @@ import { model, Schema, Document } from "mongoose";
 export interface UserDocument extends Document {
     name: string;
     email: string;
-    phone_number: string;
+    phone: string;
     password: string;
     photo: string;
     bio: string;
@@ -42,7 +42,7 @@ const userSchema = new Schema(
         default: "https://i.ibb.co/4pDNDk1/avater.png"
       },
 
-      phone_number: {
+      phone: {
         type: String,
         default: "+234"
       },
@@ -61,6 +61,6 @@ const userSchema = new Schema(
   },
 )
 
-const UserModel = model<UserDocument>("User", userSchema);
+const User = model<UserDocument>("User", userSchema);
 
-export default UserModel;
+export default User;
