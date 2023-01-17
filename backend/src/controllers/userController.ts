@@ -1,6 +1,12 @@
 import asyncHandler from "express-async-handler";
 import { NextFunction, Request, Response } from "express";
 import User from "../models/User";
+import jwt from "jsonwebtoken";
+import configs from "../config/config";
+
+const generateToken = (id: any) => {
+    return jwt.sign({id}, configs.JWT_SECRET, {expiresIn: "1d"} )
+};
 
 const registerUser = asyncHandler( async (req: Request, res: Response) => {
    const {name, email, password} = req.body
@@ -23,14 +29,16 @@ const registerUser = asyncHandler( async (req: Request, res: Response) => {
     throw new Error("Email has already been registered")
  }
 
-
  // Create new user
  const user = await User.create({ name, email, password })
+
+  //  Generate Token
+  const token = generateToken(user._id)
 
  if (user) {
     const {_id, name, email, photo, phone, bio} = user
     res.status(201).json({
-        _id, name, email, photo, phone, bio
+        _id, name, email, photo, phone, bio, token
     })
  } else {
     res.status(400)

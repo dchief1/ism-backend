@@ -9,6 +9,8 @@ export const configs = {
   
     // DB_TEST_URL: process.env.DB_TEST_URL || "",
     DB_DEV_URL: process.env.DB_DEV_URL || "",
+
+    JWT_SECRET: process.env.JWT_SECRET || "",
 }
 
 export default configs;
