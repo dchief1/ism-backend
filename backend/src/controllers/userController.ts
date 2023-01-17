@@ -1,7 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { NextFunction, Request, Response } from "express";
 import User from "../models/User";
-import bcrypt, { genSalt } from "bcryptjs";
 
 const registerUser = asyncHandler( async (req: Request, res: Response) => {
    const {name, email, password} = req.body
@@ -24,13 +23,9 @@ const registerUser = asyncHandler( async (req: Request, res: Response) => {
     throw new Error("Email has already been registered")
  }
 
- // Encrypt password befor saving to DB
- const salt = await bcrypt.genSalt(10)
-
- const hashedPassword = await bcrypt.hash(password, salt)
 
  // Create new user
- const user = await User.create({ name, email, password: hashedPassword })
+ const user = await User.create({ name, email, password })
 
  if (user) {
     const {_id, name, email, photo, phone, bio} = user

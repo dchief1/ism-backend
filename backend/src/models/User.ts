@@ -1,4 +1,5 @@
 import { model, Schema, Document } from "mongoose";
+import bcrypt from "bcryptjs";
 
 export interface UserDocument extends Document {
     name: string;
@@ -60,6 +61,21 @@ const userSchema = new Schema(
     toObject: { virtuals: true },
   },
 )
+
+// Encrypt password before saving to DB
+userSchema.pre("save", async function ( next ) {
+
+  if(!this.isModified("password")) {
+    return next();
+  }
+
+  // Hashed password 
+  const salt = await bcrypt.genSalt(10)
+  const hashedPassword = await bcrypt.hash(this.password, salt)
+  this.password = hashedPassword
+  next();
+  
+})
 
 const User = model<UserDocument>("User", userSchema);
 
