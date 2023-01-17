@@ -4,7 +4,8 @@ import morgan from "morgan";
 import helmet from "helmet";
 import { connectDatabase } from "./config/database";
 import bodyParser from "body-parser";
-import userRoutes from "./routes/userRoutes"
+import userRoutes from "./routes/userRoutes";
+import errorHandler from "./middlewares/errorMiddleware";
 
 // Establish connection to DB
 connectDatabase();
@@ -29,5 +30,8 @@ app.use("/api/users", userRoutes)
 app.get("/", (req, res) => {
     res.send("Home Page")
 })
+
+// Error Middleware
+app.use(errorHandler)
 
 export default app;
