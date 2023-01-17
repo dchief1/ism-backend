@@ -6,6 +6,7 @@ import { connectDatabase } from "./config/database";
 import bodyParser from "body-parser";
 import userRoutes from "./routes/userRoutes";
 import errorHandler from "./middlewares/errorMiddleware";
+import cookieParser from "cookie-parser";
 
 // Establish connection to DB
 connectDatabase();
@@ -20,6 +21,7 @@ app.use(cors());
 
 // Middlewares
 app.use(express.json())
+app.use(cookieParser())
 app.use(express.urlencoded({extended: false}))
 app.use(bodyParser.json())
 

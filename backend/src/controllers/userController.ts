@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import User from "../models/User";
 import jwt from "jsonwebtoken";
 import configs from "../config/config";
+import { NONAME } from "dns";
 
 const generateToken = (id: any) => {
     return jwt.sign({id}, configs.JWT_SECRET, {expiresIn: "1d"} )
@@ -34,6 +35,15 @@ const registerUser = asyncHandler( async (req: Request, res: Response) => {
 
   //  Generate Token
   const token = generateToken(user._id)
+
+ // Send HTTP-only cookie
+ res.cookie("token", token, {
+   path: "/", 
+   httpOnly: true,
+   expires: new Date(Date.now() + 1000 * 86400), // 1 Day
+   sameSite: "none",
+   secure: true
+ })   
 
  if (user) {
     const {_id, name, email, photo, phone, bio} = user
