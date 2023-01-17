@@ -32,7 +32,7 @@ const userSchema = new Schema(
         type: String,
         required: [true, 'Please add a password'],
         minlength: [6, "password must be up to 6 characters"],
-        maxlength: [23, "password must not be more than 23 characters"],
+        // maxlength: [23, "password must not be more than 23 characters"],
         select: false
       },
       
