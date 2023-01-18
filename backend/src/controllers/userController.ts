@@ -3,13 +3,14 @@ import { NextFunction, Request, Response } from "express";
 import User from "../models/User";
 import jwt from "jsonwebtoken";
 import configs from "../config/config";
-import { NONAME } from "dns";
 
 const generateToken = (id: any) => {
     return jwt.sign({id}, configs.JWT_SECRET, {expiresIn: "1d"} )
 };
 
-const registerUser = asyncHandler( async (req: Request, res: Response) => {
+export default class UserController  {
+// Register User
+ registerUser = asyncHandler( async (req: Request, res: Response) => {
    const {name, email, password} = req.body
 
   // Validation
@@ -57,4 +58,8 @@ const registerUser = asyncHandler( async (req: Request, res: Response) => {
 
 });
 
-export default (registerUser);
+// Login User
+loginUser = asyncHandler( async (req: Request, res: Response) => {
+   res.send("Login User");
+} );
+}
