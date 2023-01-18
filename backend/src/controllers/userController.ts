@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import { NextFunction, Request, Response } from "express";
 import User from "../models/User";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs"
 import configs from "../config/config";
 
 const generateToken = (id: any) => {
@@ -50,7 +51,7 @@ export default class UserController  {
     const {_id, name, email, photo, phone, bio} = user
     res.status(201).json({
         _id, name, email, photo, phone, bio, token
-    })
+    });
  } else {
     res.status(400)
     throw new Error("invalid user data")
@@ -60,6 +61,46 @@ export default class UserController  {
 
 // Login User
 loginUser = asyncHandler( async (req: Request, res: Response) => {
-   res.send("Login User");
+   const {email, password} = req.body
+
+  // Validate Request
+  if ( !email || !password ) {
+    res.status(400)
+    throw new Error("Please add email and password")
+  }
+
+  // Check if user exist
+  const user = await User.findOne({email}).select("+password") 
+
+  if (!user) {
+     res.status(400)
+     throw new Error("User not found, please signup")
+  }
+
+  // User exist, now check if password is correct
+  const passwordIsCorrect = await bcrypt.compare(password, user.password)
+
+  //  Generate Token
+  const token = generateToken(user._id)
+
+ // Send HTTP-only cookie
+ res.cookie("token", token, {
+   path: "/", 
+   httpOnly: true,
+   expires: new Date(Date.now() + 1000 * 86400), // 1 Day
+   sameSite: "none",
+   secure: true
+ })
+
+  if (user && passwordIsCorrect) {
+    const {_id, name, email, photo, phone, bio} = user
+    res.status(200).json({
+        _id, name, email, photo, phone, bio, token
+    });
+  } else {
+    res.status(400)
+    throw new Error("Invalid email or password")
+  }
+
 } );
 }
