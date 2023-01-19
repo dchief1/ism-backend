@@ -103,4 +103,17 @@ loginUser = asyncHandler( async (req: Request, res: Response) => {
   }
 
 } );
+
+// Logout User
+logout = asyncHandler (async (req: Request, res: Response) => {
+  res.cookie("token", "", {
+    path: "/", 
+    httpOnly: true,
+    expires: new Date(0), // expires cookie to logout
+    sameSite: "none",
+    secure: true
+  })
+   res.status(200).json({message: "Successfully Logged Out"})
+});
+
 }
