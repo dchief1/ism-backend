@@ -116,4 +116,9 @@ logout = asyncHandler (async (req: Request, res: Response) => {
    res.status(200).json({message: "Successfully Logged Out"})
 });
 
+// Get User Profile
+getUser = asyncHandler (async (req: Request, res: Response) => {
+  res.send("Get User Data")
+})
+
 }
