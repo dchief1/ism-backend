@@ -4,6 +4,7 @@ import User from "../models/User";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"
 import configs from "../config/config";
+import { IGetUserAuthInfoRequest } from "../utils/extendRequest";
 
 const generateToken = (id: any) => {
     return jwt.sign({id}, configs.JWT_SECRET, {expiresIn: "1d"} )
@@ -117,8 +118,24 @@ logout = asyncHandler (async (req: Request, res: Response) => {
 });
 
 // Get User Profile
-getUser = asyncHandler (async (req: Request, res: Response) => {
-  res.send("Get User Data")
-})
+getUser = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
+  const user = await User.findById(req.user._id)
+
+  if (user) {
+    const {_id, name, email, photo, phone, bio} = user as any
+    res.status(200).json({
+        _id, name, email, photo, phone, bio
+    });
+ } else {
+    res.status(400)
+    throw new Error("User Not Found")
+ }
+
+});
+
+// Get Login Status
+loginStatus = asyncHandler (async (req: Request, res: Response) => {
+  res.send("Login Status")
+});
 
 }
