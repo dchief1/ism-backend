@@ -4,7 +4,7 @@ import User from "../models/User";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"
 import configs from "../config/config";
-import { IGetUserAuthInfoRequest } from "../utils/extendRequest";
+import { IGetUserAuthInfoRequest, JwtObject } from "../utils/extendRequest";
 
 const generateToken = (id: any) => {
     return jwt.sign({id}, configs.JWT_SECRET, {expiresIn: "1d"} )
@@ -41,7 +41,7 @@ export default class UserController  {
 
  // Send HTTP-only cookie
  res.cookie("token", token, {
-   path: "/", 
+  //  path: "/", 
    httpOnly: true,
    expires: new Date(Date.now() + 1000 * 86400), // 1 Day
    sameSite: "none",
@@ -86,7 +86,7 @@ loginUser = asyncHandler( async (req: Request, res: Response) => {
 
  // Send HTTP-only cookie
  res.cookie("token", token, {
-   path: "/", 
+  //  path: "/", 
    httpOnly: true,
    expires: new Date(Date.now() + 1000 * 86400), // 1 Day
    sameSite: "none",
@@ -108,7 +108,7 @@ loginUser = asyncHandler( async (req: Request, res: Response) => {
 // Logout User
 logout = asyncHandler (async (req: Request, res: Response) => {
   res.cookie("token", "", {
-    path: "/", 
+    // path: "/", 
     httpOnly: true,
     expires: new Date(0), // expires cookie to logout
     sameSite: "none",
@@ -134,8 +134,21 @@ getUser = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
 });
 
 // Get Login Status
-loginStatus = asyncHandler (async (req: Request, res: Response) => {
-  res.send("Login Status")
+loginStatus = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
+
+  const token = req.cookies.token
+  console.log(token)
+  if (!token) {
+     res.json(false)
+  }
+
+ // Verify Token
+ const verified = jwt.verify(token, configs.JWT_SECRET)as JwtObject
+ if (verified) {
+  res.json(true)
+ }
+  res.json(false)
+
 });
 
 }

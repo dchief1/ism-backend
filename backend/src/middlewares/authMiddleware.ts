@@ -1,18 +1,14 @@
 import asyncHandler from "express-async-handler"; 
 import { NextFunction, Request, Response } from "express";
 import User from "../models/User";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import configs from "../config/config";
-import { IGetUserAuthInfoRequest } from "../utils/extendRequest";
-
-export interface JwtObject {
-    id: string;
-}
+import { IGetUserAuthInfoRequest, JwtObject } from "../utils/extendRequest";
 
 const protect = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
     try {
-        const token = req.cookies["token"]
-        console.log(token)
+        const token = req.cookies.token
+        // console.log(req.rawHeaders)
         if (!token) {
             res.status(401)
             throw new Error("Not authorized, please login");
