@@ -151,4 +151,9 @@ loginStatus = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) 
 
 });
 
+// Update User
+updateUser = asyncHandler (async (req: Request, res: Response) => {
+  res.send("User Updated")
+});
+
 }
