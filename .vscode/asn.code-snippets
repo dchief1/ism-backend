@@ -1,0 +1,8 @@
+{
+	"asynf": {
+		"scope": "typescript",
+		"prefix": "af",
+		"body": "updateUser = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {});",
+		"description": "async function"
+	}
+}

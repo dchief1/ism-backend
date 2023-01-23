@@ -179,4 +179,9 @@ updateUser = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) =
 
 });
 
+// Change password
+changePassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
+  res.send("Changed password")
+});
+
 }
