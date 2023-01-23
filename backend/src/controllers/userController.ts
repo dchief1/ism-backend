@@ -152,8 +152,31 @@ loginStatus = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) 
 });
 
 // Update User
-updateUser = asyncHandler (async (req: Request, res: Response) => {
-  res.send("User Updated")
+updateUser = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
+  const user = await User.findById(req.user._id)
+
+  if (user) {
+    const {name, email, photo, phone, bio} = user 
+    user.email = email;
+    user.name = req.body.name || name;
+    user.bio = req.body.bio || bio;
+    user.phone = req.body.phone || phone;
+    user.photo = req.body.photo || photo;
+
+    const updatedUser = await user.save()
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email, 
+      photo: updatedUser.photo, 
+      phone: updatedUser.phone, 
+      bio: updatedUser.bio
+    })
+  } else {
+    res.status(404)
+    throw new Error("User not found")
+  }
+
 });
 
 }
