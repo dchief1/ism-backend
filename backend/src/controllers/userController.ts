@@ -210,4 +210,8 @@ changePassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Respons
 
 });
 
+forgotPassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
+  res.send("Forgot Password")
+});
+
 };
