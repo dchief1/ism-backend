@@ -41,7 +41,7 @@ export default class UserController  {
 
  // Send HTTP-only cookie
  res.cookie("token", token, {
-  //  path: "/", 
+   path: "/", 
    httpOnly: true,
    expires: new Date(Date.now() + 1000 * 86400), // 1 Day
    sameSite: "none",
@@ -86,7 +86,7 @@ loginUser = asyncHandler( async (req: Request, res: Response) => {
 
  // Send HTTP-only cookie
  res.cookie("token", token, {
-  //  path: "/", 
+   path: "/", 
    httpOnly: true,
    expires: new Date(Date.now() + 1000 * 86400), // 1 Day
    sameSite: "none",
@@ -108,7 +108,7 @@ loginUser = asyncHandler( async (req: Request, res: Response) => {
 // Logout User
 logout = asyncHandler (async (req: Request, res: Response) => {
   res.cookie("token", "", {
-    // path: "/", 
+    path: "/", 
     httpOnly: true,
     expires: new Date(0), // expires cookie to logout
     sameSite: "none",
@@ -181,7 +181,33 @@ updateUser = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) =
 
 // Change password
 changePassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
-  res.send("Changed password")
+  const user = await User.findById(req.user._id).select("+password")
+  const {oldPassword, password} = req.body
+
+  if(!user) {
+    res.status(400)
+    throw new Error("User not found, please signup")
+  }
+
+  // Validate
+  if(!oldPassword || !password) {
+    res.status(400)
+    throw new Error("Please add old and new password")
+  }
+
+  // Check if old password matches password in DB
+  const passwordIsCorrect = await bcrypt.compare(oldPassword, user.password)
+
+  // Save new password
+  if(user && passwordIsCorrect) {
+    user.password = password
+    await user.save()
+    res.status(200).send("Password change successful")
+  } else {
+    res.status(400)
+    throw new Error("Old password is incorrect")
+  }
+
 });
 
-}
+};

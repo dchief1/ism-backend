@@ -4,7 +4,8 @@ import protect from "../middlewares/authMiddleware";
 
 const router = Router();
 
-const { registerUser, loginUser, logout, getUser, loginStatus, updateUser, changePassword } = new UserController()
+const { registerUser, loginUser, logout, getUser, loginStatus, updateUser,
+      changePassword } = new UserController()
 
 router.post("/register", registerUser)
 router.post("/login", loginUser)
