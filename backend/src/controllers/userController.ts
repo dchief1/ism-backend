@@ -225,8 +225,33 @@ forgotPassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Respons
   let resetToken = crypto.randomBytes(32).toString("hex") + user._id
   
   // Hash token before saving to DB
-  const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex")
-  console.log(hashedToken);
+  const hashedToken = crypto
+  .createHash("sha256")
+  .update(resetToken)
+  .digest("hex")
+
+  // Save token to DB
+  await new Token({
+    userId: user._id,
+    token: hashedToken,
+    createdAt: Date.now(),
+    expiresAt: Date.now() + 30 * (60 * 1000) // thirty minutes
+  }).save()
+
+  // Construct Reset Url
+  const resetUrl = `${configs.FRONTEND_URL}/resetpassword/${resetToken}`
+
+  // Reset email
+  const message = `
+    <h2>Hello ${user.name}</h2>
+    <p>Please use the url below to reset your password</p>
+    <p>Reset link is only valid for 30minutes</p>
+
+    <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+
+    <p>Regards...</p>
+    <p>Ism Team</p>
+  `
   
 
   res.send("Forgot password")

@@ -15,6 +15,8 @@ export const configs = {
     EMAIL_HOST: process.env.EMAIL_HOST || "",
     EMAIL_USER: process.env.EMAIL_USER || "",
     EMAIL_PASS: process.env.EMAIL_PASS || "",
+
+    FRONTEND_URL: process.env.FRONTEND_URL || "",
 }
 
 export default configs;
