@@ -5,6 +5,8 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"
 import configs from "../config/config";
 import { IGetUserAuthInfoRequest, JwtObject } from "../utils/extendRequest";
+import Token from "../models/Token";
+import crypto from "crypto"
 
 const generateToken = (id: any) => {
     return jwt.sign({id}, configs.JWT_SECRET, {expiresIn: "1d"} )
@@ -211,7 +213,25 @@ changePassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Respons
 });
 
 forgotPassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
-  res.send("Forgot Password")
+  const {email} = req.body
+  const user = await User.findOne({email})
+
+  if(!user) {
+    res.status(404)
+    throw new Error("User does not exist")
+  }
+
+  // Create a reset token
+  let resetToken = crypto.randomBytes(32).toString("hex") + user._id
+  
+  // Hash token before saving to DB
+  const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex")
+  console.log(hashedToken);
+  
+
+  res.send("Forgot password")
+  
+
 });
 
 };

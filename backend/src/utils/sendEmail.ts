@@ -30,8 +30,8 @@ export const sendEmail = async (subject: any, message: any, send_to: any,
     transporter.sendMail(options, function (err, info) {
         if (err) {
             console.log(err);
+        } else {
+            console.log(info);
         }
-        console.log(info);
-        
     })
 };
