@@ -6,7 +6,8 @@ import bcrypt from "bcryptjs"
 import configs from "../config/config";
 import { IGetUserAuthInfoRequest, JwtObject } from "../utils/extendRequest";
 import Token from "../models/Token";
-import crypto from "crypto"
+import crypto from "crypto";
+import sendEmail from "../utils/sendEmail";
 
 const generateToken = (id: any) => {
     return jwt.sign({id}, configs.JWT_SECRET, {expiresIn: "1d"} )
@@ -252,10 +253,17 @@ forgotPassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Respons
     <p>Regards...</p>
     <p>Ism Team</p>
   `
-  
+  const subject = "Password Reset Request"
+  const send_to = user.email
+  const sent_from = configs.EMAIL_USER
 
-  res.send("Forgot password")
-  
+  try {
+    await sendEmail(subject, message, send_to, sent_from)
+    res.status(200).json({success: true, message:"Reset Email Sent"})
+  } catch (error) {
+    res.status(500)
+    throw new Error("Email not sent, please try again")
+  }
 
 });
 

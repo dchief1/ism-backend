@@ -2,8 +2,8 @@ import nodemailer from "nodemailer"
 import configs from "../config/config";
 import { Request, Response } from "express";
 
-export const sendEmail = async (subject: any, message: any, send_to: any, 
-    sent_from: any, reply_to: any) => {
+ const sendEmail = async (subject: any, message: any, send_to: any, 
+    sent_from: any) => {
     // Create email transporter
     const transporter = nodemailer.createTransport({
         host: configs.EMAIL_HOST,
@@ -21,7 +21,7 @@ export const sendEmail = async (subject: any, message: any, send_to: any,
     const options = {
         from: sent_from,
         to: send_to,
-        replyTo: reply_to,
+        // replyTo: reply_to,
         subject: subject,
         html: message,
     }
@@ -35,3 +35,5 @@ export const sendEmail = async (subject: any, message: any, send_to: any,
         }
     })
 };
+
+export default sendEmail;
