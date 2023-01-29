@@ -230,6 +230,8 @@ forgotPassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Respons
 
   // Create a reset token
   let resetToken = crypto.randomBytes(32).toString("hex") + user._id
+  console.log(resetToken);
+  
   
   // Hash token before saving to DB
   const hashedToken = crypto
@@ -270,6 +272,39 @@ forgotPassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Respons
     res.status(500)
     throw new Error("Email not sent, please try again")
   }
+
+});
+
+resetPassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
+  const {password} = req.body
+  const {resetToken} = req.params
+
+  // Hash token, then compare to Token in DB
+  const hashedToken = crypto
+  .createHash("sha256")
+  .update(resetToken)
+  .digest("hex")
+
+  // Find Token in DB
+  const userToken = await Token.findOne({
+    token: hashedToken,
+    expiresAt: {$gt: Date.now()}
+  })
+
+  if (!userToken) {
+    res.status(404)
+    throw new Error("Invalid or Expired Token")
+  }
+
+  // Find User
+  const user = await User.findOne({_id: userToken.userId})
+  if(user) {
+    user.password = password
+    await user.save()
+    res.status(200).json({
+      message: "Password Reset Successful, Please Login"
+    })
+  } 
 
 });
 

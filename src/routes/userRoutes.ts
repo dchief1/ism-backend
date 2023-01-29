@@ -5,7 +5,7 @@ import protect from "../middlewares/authMiddleware";
 const router = Router();
 
 const { registerUser, loginUser, logout, getUser, loginStatus, updateUser,
-      changePassword, forgotPassword } = new UserController()
+      changePassword, forgotPassword, resetPassword } = new UserController()
 
 router.post("/register", registerUser)
 router.post("/login", loginUser)
@@ -15,5 +15,6 @@ router.get("/loggedin",  loginStatus)
 router.patch("/updateuser", protect, updateUser)
 router.patch("/changepassword", protect, changePassword)
 router.post("/forgotpassword", forgotPassword)
+router.put("/resetpassword/:resetToken", resetPassword)
 
 export default router;
