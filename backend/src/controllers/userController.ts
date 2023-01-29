@@ -222,6 +222,12 @@ forgotPassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Respons
     throw new Error("User does not exist")
   }
 
+  // Delete token if it exists in DB
+  let token = await Token.findOne({userId: user._id})
+  if (token) {
+    await token.deleteOne()
+  }
+
   // Create a reset token
   let resetToken = crypto.randomBytes(32).toString("hex") + user._id
   
