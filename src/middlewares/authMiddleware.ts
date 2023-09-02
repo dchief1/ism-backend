@@ -3,9 +3,9 @@ import { NextFunction, Request, Response } from "express";
 import User from "../models/User";
 import jwt from "jsonwebtoken";
 import configs from "../config/config";
-import { IGetUserAuthInfoRequest, JwtObject } from "../utils/extendRequest";
+import { CustomRequest, JwtObject } from "../utils/extendRequest";
 
-const protect = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
+const protect = asyncHandler (async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const token = req.cookies.token
         // console.log(req.rawHeaders)

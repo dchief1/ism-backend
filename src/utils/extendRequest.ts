@@ -1,6 +1,6 @@
 import { Request } from "express"
 
-export interface IGetUserAuthInfoRequest extends Request {
+export interface CustomRequest extends Request {
     user?: any // or any other type
   }
 

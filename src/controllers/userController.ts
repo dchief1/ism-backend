@@ -4,7 +4,7 @@ import User from "../models/User";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"
 import configs from "../config/config";
-import { IGetUserAuthInfoRequest, JwtObject } from "../utils/extendRequest";
+import { CustomRequest, JwtObject } from "../utils/extendRequest";
 import Token from "../models/Token";
 import crypto from "crypto";
 import sendEmail from "../utils/sendEmail";
@@ -121,7 +121,7 @@ logout = asyncHandler (async (req: Request, res: Response) => {
 });
 
 // Get User Profile
-getUser = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
+getUser = asyncHandler (async (req: CustomRequest, res: Response) => {
   const user = await User.findById(req.user._id)
 
   if (user) {
@@ -137,7 +137,7 @@ getUser = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
 });
 
 // Get Login Status
-loginStatus = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
+loginStatus = asyncHandler (async (req: CustomRequest, res: Response) => {
 
   const token = req.cookies.token
   console.log(token)
@@ -155,7 +155,7 @@ loginStatus = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) 
 });
 
 // Update User
-updateUser = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
+updateUser = asyncHandler (async (req: CustomRequest, res: Response) => {
   const user = await User.findById(req.user._id)
 
   if (user) {
@@ -183,7 +183,7 @@ updateUser = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) =
 });
 
 // Change password
-changePassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
+changePassword = asyncHandler (async (req: CustomRequest, res: Response) => {
   const user = await User.findById(req.user._id).select("+password")
   const {oldPassword, password} = req.body
 
@@ -213,7 +213,7 @@ changePassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Respons
 
 });
 
-forgotPassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
+forgotPassword = asyncHandler (async (req: CustomRequest, res: Response) => {
   const {email} = req.body
   const user = await User.findOne({email})
 
@@ -275,7 +275,7 @@ forgotPassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Respons
 
 });
 
-resetPassword = asyncHandler (async (req: IGetUserAuthInfoRequest, res: Response) => {
+resetPassword = asyncHandler (async (req: CustomRequest, res: Response) => {
   const {password} = req.body
   const {resetToken} = req.params
 

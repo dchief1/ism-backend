@@ -5,6 +5,7 @@ import helmet from "helmet";
 import { connectDatabase } from "./config/database";
 import bodyParser from "body-parser";
 import userRoutes from "./routes/userRoutes";
+import productRoutes from "./routes/productRoutes";
 import errorHandler from "./middlewares/errorMiddleware";
 import cookieParser from "cookie-parser";
 
@@ -27,6 +28,7 @@ app.use(bodyParser.json())
 
 // Routes middleware
 app.use("/api/users", userRoutes)
+app.use("/api/products", productRoutes)
 
 // Routes
 app.get("/", (req, res) => {

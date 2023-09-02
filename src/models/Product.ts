@@ -12,7 +12,7 @@ const productSchema = new Schema(
             required: [true, "Please add a name"],
             trim: true,
         },
-        sku: {
+        sku: { // unique number to identify the product
             type: String,
             required: true,
             default: "SKU",
