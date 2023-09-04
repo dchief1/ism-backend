@@ -83,16 +83,36 @@ export default class ProductController {
     getProduct = expressAsyncHandler(
         async (req: CustomRequest, res: Response) => {
             const product = await Product.findById(req.params.id);
+            // If product doesn't exist
             if (!product) {
                 res.status(404);
                 throw new Error("Product not found");
             }
-
+            // Match the product to it's user
             if (product.user?.toString() !== req.user.id) {
                 res.status(401);
                 throw new Error("User not authorized");
             }
             res.status(200).json(product);
+        },
+    );
+
+    // Delete product
+    deleteProduct = expressAsyncHandler(
+        async (req: CustomRequest, res: Response) => {
+            const product = await Product.findById(req.params.id);
+            // If product doesn't exist
+            if (!product) {
+                res.status(404);
+                throw new Error("Product not found");
+            }
+            // Match the product to it's user
+            if (product.user?.toString() !== req.user.id) {
+                res.status(401);
+                throw new Error("User not authorized");
+            }
+            await product.remove();
+            res.status(200).json({ message: "Product deleted." });
         },
     );
 }
