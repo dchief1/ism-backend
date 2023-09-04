@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/server.ts",
-    "prod": "NODE_ENV=production node dist/src/server.js",
+    "prod": "NODE_ENV=production node dist/server.js",
     "start": "npm run build && npm run dev",
     "build": "tsc --build",
     "watch": "tsc --watch",
