@@ -1,0 +1,5 @@
+name: ism-app-api
+type: web
+buildCommand: npm install && tsc --build
+startCommand: node dist/server.js
+directory: src
