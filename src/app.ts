@@ -6,6 +6,7 @@ import { connectDatabase } from "./config/database";
 import bodyParser from "body-parser";
 import userRoutes from "./routes/userRoutes";
 import productRoutes from "./routes/productRoutes";
+import contactRoutes from "./routes/contactRoutes";
 import errorHandler from "./middlewares/errorMiddleware";
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -32,6 +33,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Routes middleware
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/contactus", contactRoutes);
 
 // Routes
 app.get("/", (req, res) => {

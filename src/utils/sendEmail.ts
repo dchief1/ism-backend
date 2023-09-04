@@ -6,6 +6,7 @@ const sendEmail = async (
     message: any,
     send_to: any,
     sent_from: any,
+    reply_to: any,
 ) => {
     try {
         // Create email transporter
@@ -25,6 +26,7 @@ const sendEmail = async (
         const options = {
             from: sent_from,
             to: send_to,
+            replyTo: reply_to,
             subject: subject,
             html: message,
         };

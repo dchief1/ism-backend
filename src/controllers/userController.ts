@@ -276,9 +276,10 @@ export default class UserController {
         const subject = "Password Reset Request";
         const send_to = user.email;
         const sent_from = configs.EMAIL_USER;
+        const reply_to = null;
 
         try {
-            await sendEmail(subject, message, send_to, sent_from);
+            await sendEmail(subject, message, send_to, sent_from, reply_to);
             res.status(200).json({
                 success: true,
                 message: "Reset Email Sent",
