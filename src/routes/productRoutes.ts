@@ -5,9 +5,10 @@ import { upload } from "../utils/fileUpload";
 
 const router = Router();
 
-const { createProduct, getProducts } = new ProductController();
+const { createProduct, getProducts, getProduct } = new ProductController();
 
 router.post("/", protect, upload.single("image"), createProduct);
 router.get("/", protect, getProducts);
+router.get("/:id", protect, getProduct);
 
 export default router;
