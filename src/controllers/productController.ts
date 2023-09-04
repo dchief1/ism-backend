@@ -4,6 +4,9 @@ import { Response } from "express";
 import Product from "../models/Product";
 import { fileSizeFormatter } from "../utils/fileUpload";
 
+// @ts-ignore
+import * as cloudinary from "cloudinary/lib/v2";
+
 export default class ProductController {
     // Create Product function
     createProduct = expressAsyncHandler(
@@ -27,9 +30,24 @@ export default class ProductController {
             // Handle Image upload
             let fileData = {};
             if (req.file) {
+                // Save image to cloudinary
+                let uploadedFile;
+                try {
+                    uploadedFile = await cloudinary.uploader.upload(
+                        req.file.path,
+                        {
+                            folder: "Ism App",
+                            resource_type: "image",
+                        },
+                    );
+                } catch (error) {
+                    res.status(500);
+                    throw new Error("Image could not be uploaded");
+                }
+
                 fileData = {
                     fileName: req.file.originalname,
-                    filePath: req.file.path,
+                    filePath: uploadedFile.secure_url,
                     fileType: req.file.mimetype,
                     fileSize: fileSizeFormatter(req.file.size, 2),
                 };
@@ -48,6 +66,16 @@ export default class ProductController {
             });
 
             res.status(201).json(product);
+        },
+    );
+
+    // Get all products
+    getProducts = expressAsyncHandler(
+        async (req: CustomRequest, res: Response) => {
+            const products = await Product.find({ user: req.user.id }).sort(
+                "-createdAt",
+            );
+            res.status(200).json(products);
         },
     );
 }
