@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/server.ts",
     "prod": "NODE_ENV=production node dist/server.js",
-    "start": "npm run build && npm run dev",
-    "build": "npm install && tsc --build",
+    "start": "npm run build && node dist/server.js",
+    "build": "tsc --project tsconfig.json ",
     "watch": "tsc --watch",
     "audit": "npm audit &  npm audit fix"
   },
