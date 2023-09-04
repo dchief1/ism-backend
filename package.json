@@ -8,7 +8,7 @@
     "dev": "nodemon src/server.ts",
     "prod": "NODE_ENV=production node dist/server.js",
     "start": "npm run build && npm run dev",
-    "build": "tsc --build",
+    "build": "npm install && tsc --build",
     "watch": "tsc --watch",
     "audit": "npm audit &  npm audit fix"
   },
