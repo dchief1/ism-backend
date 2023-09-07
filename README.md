@@ -19,8 +19,8 @@ This is a simple inventory management system built using Node.js, Express, TypeS
 ## Features
 
 - User authentication and authorization.
-- Add, update, and delete products.
-- Manage suppliers and purchase orders.
+- Add, update, delete, get a single and get all products.
+- Contact us, user will be able to report any problems.
 - RESTful API for easy integration with other systems.
 
 <br>
