@@ -81,7 +81,7 @@ Before you begin, ensure you have met the following requirements:
 
 ## API Documentation
 
-For detailed API documentation, please refer to the 'http://docs'.
+For detailed API documentation, please refer to the 'https://documenter.getpostman.com/view/18943407/2s9YCAPVCh'.
 
 <br>
 
