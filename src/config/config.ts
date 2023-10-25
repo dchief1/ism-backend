@@ -18,7 +18,7 @@ export const configs = {
 
     FRONTEND_URL: process.env.FRONTEND_URL || "",
 
-    // CLOUDINARY_URL: process.env.CLOUDINARY_URL || "",
+    CLOUDINARY_URL: process.env.CLOUDINARY_URL || "",
 };
 
 export default configs;

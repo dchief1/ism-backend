@@ -23,7 +23,7 @@ export default class UserController {
             res.status(400);
             throw new Error("Please fill in all required fields");
         }
-        if (password.lenght < 6) {
+        if (password.length < 6) {
             res.status(400);
             throw new Error("Password must be up to 6 characters");
         }
