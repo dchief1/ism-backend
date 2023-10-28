@@ -59,12 +59,12 @@ describe("UserController", () => {
 
         // Mock User.findOne method
         const findOneStub: sinon.SinonStub = sinon.stub(User, "findOne");
-        findOneStub.withArgs({ email: "johndoe@example.com" }).returns({
+        findOneStub.withArgs({ email: "dchief200@gmail.com" }).returns({
             select: sinon.stub().returnsThis() as any,
             exec: sinon.stub().resolves({
                 _id: "user123",
                 name: "John Doe",
-                email: "johndoe@example.com",
+                email: "dchief200@gmail.com",
                 password: bcrypt.hashSync("password123", 10),
             } as UserDocument),
         });
