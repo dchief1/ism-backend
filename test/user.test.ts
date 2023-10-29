@@ -116,7 +116,7 @@ describe("UserController", () => {
         // Mock request and response objects
         const req = {
             body: {
-                name: "John Doe",
+                name: "Kelechi Chief",
                 email: "igwesiemmanuel4@gmail.com",
                 password: "password123",
             },
